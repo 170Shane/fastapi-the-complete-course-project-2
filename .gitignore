@@ -1,0 +1,19 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+fastapiproject2venv/
+
+# Environment variables
+.env
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# OS-specific
+.DS_Store
