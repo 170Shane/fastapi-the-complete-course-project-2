@@ -2,13 +2,13 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 class Book():
-    id : str 
+    id : int 
     title : str
     author : str 
     description : str
     rating : int
 
-    def __init__(self, id: str, title: str, author: str, description: str, rating: int):
+    def __init__(self, id: int, title: str, author: str, description: str, rating: int):
         self.id = id
         self.title = title
         self.author = author
