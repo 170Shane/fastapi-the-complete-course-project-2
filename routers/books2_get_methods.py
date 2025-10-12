@@ -19,3 +19,20 @@ async def get_books():
 @router.get("/books/titles")
 async def get_book_titles():
     return [book.title for book in books]
+
+# Get a book by ID using path parameter
+@router.get("/books/{book_id}")
+async def get_book_by_id(book_id: int):
+    for book in books:
+        if book.id == book_id:
+            return book
+    return {"error": "Book not found"}
+
+# Get books by rating using query parameter
+@router.get("/books/by_rating/")
+async def get_books_by_rating(rating: int):
+    filtered_books = [book for book in books if book.rating >= rating]
+    if filtered_books:
+        return filtered_books
+    return {"error": f"No books found with a rating of {rating} or higher"}
+
