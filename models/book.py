@@ -16,8 +16,19 @@ class Book():
         self.rating = rating
 
 class BookRequest(BaseModel):
-    id : Optional[int] = None # optional id field
+    id : Optional[int] = Field(description="ID is not needed on create", default=None) # optional id field
     title : str =Field(min_length=3)
     author : str = Field(min_length=3)
     description : str = Field(min_length=5, max_length=100)
     rating : int = Field(gt=-1, lt=6)
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "title": "The Great Gatsby",
+                "author": "F. Scott Fitzgerald",
+                "description": "A novel set in the Roaring Twenties, exploring themes of decadence, idealism, and excess.",
+                "rating": 5
+            }
+        }
+    }
