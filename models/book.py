@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class Book():
     id : str 
@@ -16,7 +16,7 @@ class Book():
 
 class BookRequest(BaseModel):
     id : str 
-    title : str
-    author : str 
-    description : str
-    rating : int
+    title : str =Field(min_length=3)
+    author : str = Field(min_length=3)
+    description : str = Field(min_length=5, max_length=100)
+    rating : int = Field(gt=-1, lt=6)
