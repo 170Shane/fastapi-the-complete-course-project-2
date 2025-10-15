@@ -36,3 +36,11 @@ async def get_books_by_rating(rating: int):
         return filtered_books
     return {"error": f"No books found with a rating of {rating} or higher"}
 
+# Get books by published year using query parameter
+@router.get("/books/by_year/")
+async def get_books_by_year(published_date: int):
+    filtered_books = [book for book in books if book.published_date == published_date]
+    if filtered_books:
+        return filtered_books
+    return {"error": f"No books found published in the year {published_date}"}
+
