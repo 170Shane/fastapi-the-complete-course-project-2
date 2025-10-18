@@ -1,5 +1,5 @@
 
-from fastapi import Body,APIRouter
+from fastapi import Body,APIRouter, HTTPException
 from data.data import books
 
 router = APIRouter()
@@ -10,12 +10,12 @@ router = APIRouter()
 # Example: Deleting an existing book entry
 @router.delete("/books/delete_book/{book_id}")
 async def delete_book(book_id: int):
+    book_changed = False
     for idx, b in enumerate(books):
         if b.id == book_id:
             books.remove(b)
-            print(books)
-            break            
-    return {"message": "Book not found"}
-    
-    
-        
+            book_changed = True
+            break
+    if not book_changed:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return {"message": "Book deleted successfully", "book_id": book_id}
