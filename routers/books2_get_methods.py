@@ -48,7 +48,7 @@ async def get_books_by_year(published_date: int):
 # Path is a way to declare additional metadata and validation rules for path parameters
 from fastapi import Path
 @router.get("/books/validated/{book_id}")
- async def get_book_validated(book_id: int = Path(..., description="The ID of the book to get", gt=0, lt=100)):
+async def get_book_validated(book_id: int = Path(..., description="The ID of the book to get", gt=0, lt=100)):
     for book in books:
         if book.id == book_id:
             return book
