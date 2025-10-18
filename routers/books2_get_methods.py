@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Path, Query
 from models.book import Book
 from data.data import books
 
@@ -46,7 +46,6 @@ async def get_books_by_year(published_date: int):
 
 # Data validation using path parameters using Path
 # Path is a way to declare additional metadata and validation rules for path parameters
-from fastapi import Path
 @router.get("/books/validated/{book_id}")
 async def get_book_validated(book_id: int = Path(..., description="The ID of the book to get", gt=0, lt=100)):
     for book in books:
@@ -54,5 +53,13 @@ async def get_book_validated(book_id: int = Path(..., description="The ID of the
             return book
     return {"error": "Book not found"}
 
+# Data validation using query parameters using Query
+# Query is a way to declare additional metadata and validation rules for query parameters
+@router.get("/books/validated/by_rating/")
+async def get_books_by_rating_validated(rating: int = Query(..., description="The minimum rating of the books to get", gt=0, lt=6)):
+    filtered_books = [book for book in books if book.rating >= rating]
+    if filtered_books:
+        return filtered_books
+    return {"error": f"No books found with a rating of {rating} or higher"}
 
 
