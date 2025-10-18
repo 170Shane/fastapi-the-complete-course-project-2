@@ -1,6 +1,7 @@
 
 from fastapi import Body,APIRouter, HTTPException
 from data.data import books
+from starlette import status
 
 router = APIRouter()
 
@@ -8,7 +9,7 @@ router = APIRouter()
 # Delete is the method used to remove existing resources on the server
 # Data is typically sent in the request body in formats like JSON
 # Example: Deleting an existing book entry
-@router.delete("/books/delete_book/{book_id}")
+@router.delete("/books/delete_book/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int):
     book_changed = False
     for idx, b in enumerate(books):

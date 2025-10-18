@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Path, Query, HTTPException
 from models.book import Book
 from data.data import books
+from starlette import status
 
 router = APIRouter()
 
@@ -11,7 +12,7 @@ async def read_root():
     return "This is a test endpoint from the books2 router."
 
 # Get all books
-@router.get("/books")
+@router.get("/books", status_code=status.HTTP_200_OK)
 async def get_books():
     return books
 
@@ -21,28 +22,28 @@ async def get_book_titles():
     return [book.title for book in books]
 
 # Get a book by ID using path parameter
-@router.get("/books/{book_id}")
+@router.get("/books/{book_id}", status_code=status.HTTP_200_OK)
 async def get_book_by_id(book_id: int):
     for book in books:
         if book.id == book_id:
             return book
-    return {"error": "Book not found"}
+    raise HTTPException(status_code=404, detail="Book not found")
 
 # Get books by rating using query parameter
-@router.get("/books/by_rating/")
+@router.get("/books/by_rating/", status_code=status.HTTP_200_OK)
 async def get_books_by_rating(rating: int):
     filtered_books = [book for book in books if book.rating >= rating]
     if filtered_books:
         return filtered_books
-    return {"error": f"No books found with a rating of {rating} or higher"}
+    raise HTTPException(status_code=404, detail=f"No books found with a rating of {rating} or higher")
 
 # Get books by published year using query parameter
-@router.get("/books/by_year/")
+@router.get("/books/by_year/", status_code=status.HTTP_200_OK)
 async def get_books_by_year(published_date: int):
     filtered_books = [book for book in books if book.published_date == published_date]
     if filtered_books:
         return filtered_books
-    return {"error": f"No books found published in the year {published_date}"}
+    raise HTTPException(status_code=404, detail=f"No books found published in the year {published_date}")
 
 # Data validation using path parameters using Path
 # Path is a way to declare additional metadata and validation rules for path parameters
