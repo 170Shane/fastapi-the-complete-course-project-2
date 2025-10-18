@@ -56,10 +56,10 @@ async def get_book_validated(book_id: int = Path(..., description="The ID of the
 # Data validation using query parameters using Query
 # Query is a way to declare additional metadata and validation rules for query parameters
 @router.get("/books/validated/by_rating/")
-async def get_books_by_rating_validated(rating: int = Query(..., description="The minimum rating of the books to get", gt=0, lt=6)):
+async def get_books_by_rating_validated(rating: int = Query(..., description="The minimum rating of the books to get", gt=0)):
     filtered_books = [book for book in books if book.rating >= rating]
     if filtered_books:
         return filtered_books
-    return {"error": f"No books found with a rating of {rating} or higher"}
+    raise HTTPException(status_code=404, detail=f"No books found with a rating of {rating} or higher")
 
 
