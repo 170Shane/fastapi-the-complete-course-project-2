@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Path, Query, HTTPException
 from models.book import Book
 from data.data import books
 
@@ -51,7 +51,7 @@ async def get_book_validated(book_id: int = Path(..., description="The ID of the
     for book in books:
         if book.id == book_id:
             return book
-    return {"error": "Book not found"}
+    raise HTTPException(status_code=404, detail="Book not found")
 
 # Data validation using query parameters using Query
 # Query is a way to declare additional metadata and validation rules for query parameters
